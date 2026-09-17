@@ -41,9 +41,21 @@ models:
       +schema: SOURCE
       +materialized: view
       +tags: ["bronze"]
-
+    
     silver:
-      +materialized: view
+      +database: "{{ env_var('DBT_DB_ADW_SILVER') }}"
+      +schema: PURCHASING
+      +materialized: table
+      +tags: ["silver"]
 
     gold:
+      +database: "{{ env_var('DBT_DB_ADW_GOLD') }}"
+      +schema: PURCHASING
       +materialized: view
+      +tags: ["gold"]
+
+    platinum:
+      +database: "{{ env_var('DBT_DB_ADW_PLATINUM') }}"
+      +schema: PURCHASING
+      +materialized: view
+      +tags: ["platinum"]
