@@ -6,7 +6,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'prod'
+profile: 'uat'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -34,15 +34,28 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
-
 models:
-  adw_purchasing:
-    # Applies to all files under models/example/
+  ADW_PURCHASING:
     bronze:
+      +database: "{{ env_var('DBT_DB_ADW_BRONZE') }}"
+      +schema: SOURCE
       +materialized: view
-
+      +tags: ["bronze"]
+    
     silver:
-      +materialized: view
+      +database: "{{ env_var('DBT_DB_ADW_SILVER') }}"
+      +schema: PURCHASING
+      +materialized: table
+      +tags: ["silver"]
 
     gold:
+      +database: "{{ env_var('DBT_DB_ADW_GOLD') }}"
+      +schema: PURCHASING
       +materialized: view
+      +tags: ["gold"]
+
+    platinum:
+      +database: "{{ env_var('DBT_DB_ADW_PLATINUM') }}"
+      +schema: PURCHASING
+      +materialized: view
+      +tags: ["platinum"]
