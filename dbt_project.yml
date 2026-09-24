@@ -35,7 +35,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  adw_purchasing:
+  ADW_PURCHASING:
     bronze:
       +database: "{{ env_var('DBT_DB_ADW_BRONZE') }}"
       +schema: SOURCE
