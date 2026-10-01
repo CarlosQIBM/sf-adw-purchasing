@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: SLV_PURCHASING_PRODUCT_VENDOR_CLEANED
+    description: >
+      Silver-layer product-vendor commercial terms. One row per product per
+      vendor (composite key: product_id + business_entity_id), built from
+      adw_core's brz_adventure_works_purchasing__product_vendor. Drops
+      modified_date, casts last_receipt_date to date and renames columns to
+      business conventions. Grain unchanged from the source.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - product_id
+              - business_entity_id
+    columns:
+      - name: product_id
+        description: "Part of the composite PK. FK to Production.Product. Product being supplied (source: product_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_production__product')
+                field: product_id
+
+      - name: business_entity_id
+        description: "Part of the composite PK. FK to Purchasing.Vendor. Vendor supplying the product (source: business_entity_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_purchasing__vendor')
+                field: business_entity_id
+
+      - name: unit_measure_code
+        description: "FK to Production.UnitMeasure. Unit of measure the vendor sells the product in (source: unit_measure_code)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_production__unit_measure')
+                field: unit_measure_code
+
+      - name: product_vendor_average_lead_time_days
+        description: "Average number of days between placing the order and receiving it (source: average_lead_time)."
+
+      - name: product_vendor_standard_price_dollars
+        description: "Purchase price negotiated with the vendor (source: standard_price)."
+
+      - name: product_vendor_last_receipt_cost_dollars
+        description: "Unit cost of the most recent receipt (source: last_receipt_cost)."
+
+      - name: product_vendor_last_receipt_date
+        description: "Date of the most recent receipt of the product. Cast from text to date (source: last_receipt_date)."
+
+      - name: product_vendor_min_order_qty
+        description: "Minimum quantity the vendor accepts per order (source: min_order_qty)."
+
+      - name: product_vendor_max_order_qty
+        description: "Maximum quantity the vendor accepts per order (source: max_order_qty)."
+
+      - name: product_vendor_on_order_qty
+        description: "Units ordered and not yet received (source: on_order_qty)."
