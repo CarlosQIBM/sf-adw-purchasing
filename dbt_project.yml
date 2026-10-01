@@ -36,6 +36,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   ADW_PURCHASING:
+    +persist_docs:
+        relation: true
+        columns: true
+
     bronze:
       +database: "{{ env_var('DBT_DB_ADW_BRONZE') }}"
       +schema: PURCHASING
