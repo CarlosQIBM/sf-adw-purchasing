@@ -1,1 +1,0 @@
-select * from {{ ref('adw_core', 'brz_adventure_works_purchasing__purchase_order_header') }}
