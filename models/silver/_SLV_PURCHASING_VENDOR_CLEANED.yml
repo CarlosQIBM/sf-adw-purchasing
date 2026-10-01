@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: SLV_PURCHASING_VENDOR_CLEANED
+    description: >
+      Silver-layer vendor. One row per vendor, built from adw_core's
+      brz_adventure_works_purchasing__vendor. Drops modified_date, renames
+      columns to business conventions and casts the 0/1 preferred and active
+      flags to BOOLEAN.
+    columns:
+      - name: business_entity_id
+        description: "Primary key. Unique identifier of the vendor; foreign key to the business entity (source: business_entity_id)."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('adw_core', 'brz_adventure_works_person__business_entity')
+              field: business_entity_id
+
+      - name: vendor_account_number
+        description: "Vendor account number used to identify the vendor, e.g. 'AUSTRALI0001' (source: account_number)."
+
+      - name: vendor_company_name
+        description: "Company name of the vendor (source: name)."
+        data_tests:
+          - not_null
+
+      - name: vendor_credit_rating
+        description: "Ordinal credit rating ranking where 1 = Superior (best) and 5 = Below average (worst). Ordinal, not a measure: do not naively average or sum it (source: credit_rating)."
+
+      - name: vendor_is_preferred
+        description: "True if the vendor is preferred over other vendors supplying the same product; cast from 0/1 to BOOLEAN (source: preferred_vendor_status)."
+
+      - name: vendor_is_active
+        description: "True if the vendor is currently in use, false if no longer used; cast from 0/1 to BOOLEAN (source: active_flag)."
+
+      - name: vendor_purchasing_web_service_url
+        description: "Vendor's purchasing web service URL (source: purchasing_web_service_url)."
