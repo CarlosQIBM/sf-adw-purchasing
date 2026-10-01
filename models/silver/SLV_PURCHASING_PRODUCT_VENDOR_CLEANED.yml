@@ -7,7 +7,7 @@ models:
       vendor (composite key: product_id + business_entity_id), built from
       adw_core's brz_adventure_works_purchasing__product_vendor. Drops
       modified_date, casts last_receipt_date to date and renames columns to
-      business conventions.
+      business conventions. 
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
