@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_VENDOR_CLEANED
+  - name: SLV_PURCHASING_VENDOR_STANDARDIZED
     description: >
       Silver-layer vendor. One row per vendor, built from adw_core's
       brz_adventure_works_purchasing__vendor. Drops modified_date, renames

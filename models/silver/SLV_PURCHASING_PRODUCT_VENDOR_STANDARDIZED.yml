@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_PRODUCT_VENDOR_CLEANED
+  - name: SLV_PURCHASING_PRODUCT_VENDOR_STANDARDIZED
     description: >
       Silver-layer product-vendor commercial terms. One row per product per
       vendor (composite key: product_id + business_entity_id), built from

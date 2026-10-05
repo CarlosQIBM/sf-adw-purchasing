@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_SHIP_METHOD_CLEANED
+  - name: SLV_PURCHASING_SHIP_METHOD_STANDARDIZED
     description: >
       Silver-layer ship method. One row per shipping method, built from
       adw_core's brz_adventure_works_purchasing__ship_method. Drops rowguid
