@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASE_ORDER_DETAIL_STANDARDIZED
+  - name: SLV_PURCHASING_ORDER_DETAIL_STANDARDIZED
     description: >
       Silver-layer purchase order detail. One row per purchase order line,
       built from adw_core's brz_adventure_works_purchasing__purchase_order_detail.
