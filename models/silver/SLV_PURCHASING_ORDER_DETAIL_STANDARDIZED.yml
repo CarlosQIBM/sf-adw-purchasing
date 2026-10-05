@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: SLV_PURCHASING_ORDER_DETAIL_STANDARDIZED
+    description: >
+      Silver-layer purchase order detail. One row per purchase order line,
+      built from adw_core's brz_adventure_works_purchasing__purchase_order_detail.
+      Drops modified_date, casts due_date to date and prefixes every column
+      with purchase_order_detail_. Monetary columns are expressed in dollars.
+      Source-computed line_total and stocked_qty are passed through unchanged.
+    columns:
+      - name: purchase_order_detail_purchase_order_id
+        description: "Foreign key to the purchase order header containing this line (source: purchase_order_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_purchasing__purchase_order_header')
+                field: purchase_order_id
+
+      - name: purchase_order_detail_id
+        description: "Primary key. Unique identity number of the purchase order line (source: purchase_order_detail_id)."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: purchase_order_detail_expected_receipt_date
+        description: "Date the ordered product is expected to be received. Cast from text to date (source: due_date)."
+
+      - name: purchase_order_detail_ordered_qty
+        description: "Quantity of the product ordered on this purchase order line (source: order_qty)."
+
+      - name: purchase_order_detail_product_id
+        description: "Foreign key to Production.Product. Product ordered on this line (source: product_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_production__product')
+                field: product_id
+
+      - name: purchase_order_detail_unit_price_dollars
+        description: "Purchase price per unit in dollars (source: unit_price)."
+
+      - name: purchase_order_detail_line_total_dollars
+        description: "Total cost of the line in dollars, computed in the source as order_qty multiplied by unit_price. Passed through without recomputation (source: line_total)."
+
+      - name: purchase_order_detail_received_qty
+        description: "Quantity of the ordered product received from the vendor (source: received_qty)."
+
+      - name: purchase_order_detail_rejected_qty
+        description: "Quantity of the received product rejected during inspection (source: rejected_qty)."
+
+      - name: purchase_order_detail_stocked_qty
+        description: "Quantity accepted into inventory, computed in the source as received_qty minus rejected_qty. Passed through without recomputation (source: stocked_qty)."

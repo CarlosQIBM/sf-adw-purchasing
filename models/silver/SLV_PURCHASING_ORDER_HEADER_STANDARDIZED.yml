@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: SLV_PURCHASING_ORDER_HEADER_STANDARDIZED
+    description: >
+      Silver-layer purchase order header. One row per purchase order, built
+      from adw_core's brz_adventure_works_purchasing__purchase_order_header.
+      Drops modified_date, casts order_date and ship_date to date, decodes
+      status into a description and prefixes every column with
+      purchase_order_header_. Monetary columns are expressed in dollars.
+      Source-computed sub_total and total_due are passed through unchanged.
+    columns:
+      - name: purchase_order_header_purchase_order_id
+        description: "Primary key. Unique identity number of the purchase order (source: purchase_order_id)."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: purchase_order_header_revision_number
+        description: "Incremental number tracking changes to the purchase order over time (source: revision_number)."
+
+      - name: purchase_order_header_status
+        description: "Order status code: 1 = Pending, 2 = Approved, 3 = Rejected, 4 = Complete (source: status)."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+                quote: false
+
+      - name: purchase_order_header_status_description
+        description: "Human-readable order status decoded from the status code: Pending, Approved, Rejected or Complete (derived from: status)."
+
+      - name: purchase_order_header_employee_id
+        description: "Foreign key to HumanResources.Employee. Employee who created the purchase order (source: employee_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'brz_adventure_works_human_resources__employee')
+                field: business_entity_id
+
+      - name: purchase_order_header_vendor_id
+        description: "Foreign key to the vendor the order was placed with (source: vendor_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('SLV_PURCHASING_VENDOR_CLEANED')
+                field: business_entity_id
+
+      - name: purchase_order_header_ship_method_id
+        description: "Foreign key to the shipping method used for the order (source: ship_method_id)."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('SLV_PURCHASING_SHIP_METHOD_CLEANED')
+                field: ship_method_id
+
+      - name: purchase_order_header_order_date
+        description: "Date the purchase order was created. Cast from text to date (source: order_date)."
+
+      - name: purchase_order_header_estimated_ship_date
+        description: "Estimated date the vendor ships the order. Nullable. Cast from text to date (source: ship_date)."
+
+      - name: purchase_order_header_sub_total_dollars
+        description: "Purchase order subtotal in dollars, computed in the source as the sum of the order's line totals. Passed through without recomputation (source: sub_total)."
+
+      - name: purchase_order_header_tax_amount_dollars
+        description: "Tax amount in dollars (source: tax_amt)."
+
+      - name: purchase_order_header_freight_cost_dollars
+        description: "Shipping cost in dollars (source: freight)."
+
+      - name: purchase_order_header_total_due_dollars
+        description: "Total due to the vendor in dollars, computed in the source as sub_total plus tax_amt plus freight. Passed through without recomputation (source: total_due)."
