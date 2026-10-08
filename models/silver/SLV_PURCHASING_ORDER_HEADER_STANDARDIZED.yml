@@ -45,7 +45,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('SLV_PURCHASING_VENDOR_CLEANED')
+                to: ref('SLV_PURCHASING_VENDOR_STANDARDIZED')
                 field: business_entity_id
 
       - name: purchase_order_header_ship_method_id
@@ -54,7 +54,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('SLV_PURCHASING_SHIP_METHOD_CLEANED')
+                to: ref('SLV_PURCHASING_SHIP_METHOD_STANDARDIZED')
                 field: ship_method_id
 
       - name: purchase_order_header_order_date
