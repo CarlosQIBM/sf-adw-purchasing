@@ -11,7 +11,7 @@ with source as (
 with_surrogate_key as (
 
     select
-        md5(cast(business_entity_id as varchar)) as vendor_id,
+        {{ dbt_utils.generate_surrogate_key(['business_entity_id']) }} as vendor_id,
         business_entity_id,
         vendor_account_number,
         vendor_company_name as vendor_name,
