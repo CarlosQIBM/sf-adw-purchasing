@@ -6,7 +6,7 @@ models:
       Silver-layer ship method. One row per shipping method, built from
       adw_core's brz_adventure_works_purchasing__ship_method. Drops rowguid
       and modified_date and renames columns to business conventions.
-      Feeds dim_ship_method.
+      Feeds GLD_DIM_SHIP_METHOD.
     columns:
       - name: ship_method_id
         description: "Primary key. Unique identifier of the shipping method (source: ship_method_id)."
@@ -19,8 +19,8 @@ models:
         data_tests:
           - not_null
 
-      - name: ship_method_minimum_charge
-        description: "Flat base charge applied to every shipment (source: ship_base)."
+      - name: ship_method_minimum_charge_dollars
+        description: "Flat base charge applied to every shipment, in dollars (source: ship_base)."
 
-      - name: ship_method_rate_per_pound
-        description: "Variable shipping rate charged per pound (source: ship_rate)."
+      - name: ship_method_rate_per_pound_dollars
+        description: "Variable shipping rate charged per pound of shipment weight, in dollars (source: ship_rate)."
