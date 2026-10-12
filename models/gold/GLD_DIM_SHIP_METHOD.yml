@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: GLD_DIM_SHIP_METHOD
+    description: >
+      Gold-layer ship method dimension. One row per way a vendor can ship an
+      order to us (e.g. 'XRQ - TRUCK GROUND'). Built from
+      SLV_PURCHASING_SHIP_METHOD_STANDARDIZED. SCD Type 1 (overwrite); no
+      Unknown / -1 row. Answers "how was it shipped?" for GLD_FCT_PURCHASE_ORDER
+      via ship_method_key. Public: other projects reference it with
+      ref('ADW_PURCHASING', 'GLD_DIM_SHIP_METHOD'), so renaming or removing a
+      column is a breaking change.
+    config:
+      access: public
+    columns:
+      - name: ship_method_key
+        description: "Surrogate key of the ship method dimension, generated from ship_method_id. Created here; GLD_FCT_PURCHASE_ORDER reuses it and never recalculates it."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: ship_method_id
+        description: "Natural key. Unique identifier of the shipping method (source: ship_method_id)."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: ship_method_name
+        description: "Name of the shipping method, e.g. 'XRQ - TRUCK GROUND' (source: ship_method_name)."
+        data_tests:
+          - not_null
+
+      - name: ship_method_minimum_charge_dollars
+        description: "Flat base charge per shipment in dollars, from the method's price list. Reference rate, do not sum: the freight actually paid is freight on the fact's header rows (source: ship_method_minimum_charge_dollars)."
+
+      - name: ship_method_rate_per_pound_dollars
+        description: "Shipping rate charged per pound of shipment weight in dollars, from the method's price list. Reference rate, do not sum: the freight actually paid is freight on the fact's header rows (source: ship_method_rate_per_pound_dollars)."
