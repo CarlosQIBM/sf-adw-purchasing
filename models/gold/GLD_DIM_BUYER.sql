@@ -18,7 +18,7 @@ person as (
         business_entity_id,
         person_full_name,
         person_sort_name
-    from {{ ref('adw_core', 'slv_person') }}
+    from {{ ref('adw_core', 'slv_adventure_works_person__person') }}
 
 ),
 
