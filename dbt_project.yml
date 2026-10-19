@@ -6,7 +6,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'uat'
+profile: 'ADW_PURCHASING'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -43,23 +43,34 @@ models:
     bronze:
       +database: "{{ env_var('DBT_DB_ADW_BRONZE') }}"
       +schema: PURCHASING
-      +materialized: view
+      +materialized: table
       +tags: ["bronze"]
     
     silver:
       +database: "{{ env_var('DBT_DB_ADW_SILVER') }}"
       +schema: PURCHASING
-      +materialized: table
+      +materialized: view
       +tags: ["silver"]
 
     gold:
       +database: "{{ env_var('DBT_DB_ADW_GOLD') }}"
       +schema: PURCHASING
-      +materialized: view
+      +access: public
+      +materialized: table
       +tags: ["gold"]
 
     platinum:
       +database: "{{ env_var('DBT_DB_ADW_PLATINUM') }}"
       +schema: PURCHASING
+      +access: public
       +materialized: view
       +tags: ["platinum"]
+
+vars:
+  default_rows:
+    by_type:
+      text:      ['Missing', 'Not Applicable']
+      number:    [-1, -2]
+      date:      ['1900-01-01', '1900-01-01']
+      timestamp: ['1900-01-01 00:00:00', '1900-01-01 00:00:00']
+      boolean:   [false, false]
