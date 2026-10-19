@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: GLD_DIM_BUYER
+    description: >
+      Gold buyer dimension. One row per employee who has placed at least one purchase
+      order (distinct purchase_order_header_employee_id in SLV_PURCHASING_ORDER_HEADER_STANDARDIZED).
+      Identity comes from adw_core slv_person; employment attributes come from HR employee.
+      buyer_key is inherited from slv_person.person_key, never recalculated, so it matches
+      every other team's person dimension. SCD Type 1, no Unknown row.
+      Contains PII (buyer names).
+    config:
+      access: public
+    columns:
+      - name: buyer_key
+        description: "Surrogate key of the buyer. Inherited as-is from adw_core slv_person.person_key (source: slv_person.person_key)."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('adw_core', 'slv_person')
+                field: person_key
+
+      - name: buyer_id
+        description: "Natural key. Business entity id of the employee who placed the purchase orders (source: slv_person.business_entity_id)."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: buyer_full_name
+        description: "Buyer's full name in display order, as settled by core (source: slv_person.person_full_name)."
+        config:
+          meta:
+            contains_pii: true
+        data_tests:
+          - not_null
+
+      - name: buyer_sort_name
+        description: "Buyer's name as 'Last, First' for sorting (source: slv_person.person_sort_name)."
+        config:
+          meta:
+            contains_pii: true
+
+      - name: buyer_job_title
+        description: "Buyer's job title (source: employee.job_title)."
+
+      - name: buyer_organization_level
+        description: "Depth of the buyer in the organization hierarchy. Cast to integer (source: employee.organization_level)."
+
+      - name: buyer_hire_date
+        description: "Date the buyer was hired. Cast to date (source: employee.hire_date)."
+
+      - name: buyer_is_active
+        description: "True if the buyer is a current employee. Cast from 0/1 to boolean (source: employee.current_flag)."
