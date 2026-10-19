@@ -2,6 +2,8 @@
 -- "Buyer" is decided by behavior (appears as employee_id on a PO header), not by job title
 -- or person_type. buyer_key is core's person_key, selected and never recalculated.
 -- SCD Type 1. No Unknown row.
+{{ config(alias="dim_buyer") }}
+
 
 with buyers as (
 
