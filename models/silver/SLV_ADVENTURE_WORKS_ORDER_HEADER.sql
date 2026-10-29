@@ -1,3 +1,5 @@
+{{ config(alias='STG_DIM_ORDER_HEADER') }}
+
 with source as (
 
     select * from {{ ref('adw_core', 'brz_adventure_works_purchasing__purchase_order_header') }}
@@ -24,8 +26,8 @@ renamed as (
         sub_total                  as purchase_order_header_sub_total_dollars,
         tax_amt                    as purchase_order_header_tax_amount_dollars,
         freight                    as purchase_order_header_freight_cost_dollars,
-        total_due                  as purchase_order_header_total_due_dollars
-        -- dropped: modified_date
+        total_due                  as purchase_order_header_total_due_dollars,
+        modified_date              as purchase_order_header_modified_date
     from source
 
 )

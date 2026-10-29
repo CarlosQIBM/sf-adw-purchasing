@@ -1,14 +1,15 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_ORDER_HEADER_STANDARDIZED
+  - name: SLV_ADVENTURE_WORKS_ORDER_HEADER
     description: >
       Silver-layer purchase order header. One row per purchase order, built
       from adw_core's brz_adventure_works_purchasing__purchase_order_header.
-      Drops modified_date, casts order_date and ship_date to date, decodes
-      status into a description and prefixes every column with
-      purchase_order_header_. Monetary columns are expressed in dollars.
-      Source-computed sub_total and total_due are passed through unchanged.
+      Casts order_date and ship_date to date, decodes status into a description
+      and prefixes every column with purchase_order_header_. Monetary columns
+      are expressed in dollars. Source-computed sub_total and total_due are
+      passed through unchanged. Retains modified_date as
+      purchase_order_header_modified_date with its source value and type unchanged.
     columns:
       - name: purchase_order_header_purchase_order_id
         description: "Primary key. Unique identity number of the purchase order (source: purchase_order_id)."
@@ -74,3 +75,6 @@ models:
 
       - name: purchase_order_header_total_due_dollars
         description: "Total due to the vendor in dollars, computed in the source as sub_total plus tax_amt plus freight. Passed through without recomputation (source: total_due)."
+
+      - name: purchase_order_header_modified_date
+        description: "Source modification date retained with its original value and type; no DATE or TIMESTAMP conversion is applied (source: modified_date)."
