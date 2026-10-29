@@ -9,7 +9,7 @@ with buyers as (
 
     select distinct
         purchase_order_header_employee_id as business_entity_id
-    from {{ ref('SLV_PURCHASING_ORDER_HEADER_STANDARDIZED') }}
+    from {{ ref('SLV_ADVENTURE_WORKS_ORDER_HEADER') }}
 
 ),
 

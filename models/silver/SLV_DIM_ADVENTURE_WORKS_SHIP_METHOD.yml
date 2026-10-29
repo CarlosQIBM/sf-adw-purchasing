@@ -1,11 +1,12 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_SHIP_METHOD_STANDARDIZED
+  - name: SLV_DIM_ADVENTURE_WORKS_SHIP_METHOD
     description: >
       Silver-layer ship method. One row per shipping method, built from
-      adw_core's brz_adventure_works_purchasing__ship_method. Drops rowguid
-      and modified_date and renames columns to business conventions.
+      adw_core's brz_adventure_works_purchasing__ship_method. Drops rowguid,
+      renames columns to business conventions and retains modified_date as
+      ship_method_modified_date with its source value and type unchanged.
       Feeds GLD_DIM_SHIP_METHOD.
     columns:
       - name: ship_method_id
@@ -24,3 +25,6 @@ models:
 
       - name: ship_method_rate_per_pound_dollars
         description: "Variable shipping rate charged per pound of shipment weight, in dollars (source: ship_rate)."
+
+      - name: ship_method_modified_date
+        description: "Source modification date retained with its original value and type; no DATE or TIMESTAMP conversion is applied (source: modified_date)."
