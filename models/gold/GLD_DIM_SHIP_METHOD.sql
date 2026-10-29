@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ ref('SLV_PURCHASING_SHIP_METHOD_STANDARDIZED') }}
+    select * from {{ ref('SLV_DIM_ADVENTURE_WORKS_SHIP_METHOD') }}
 
 ),
 
