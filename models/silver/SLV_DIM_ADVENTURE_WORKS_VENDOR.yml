@@ -1,12 +1,13 @@
 version: 2
 
 models:
-  - name: SLV_PURCHASING_VENDOR_STANDARDIZED
+  - name: SLV_DIM_ADVENTURE_WORKS_VENDOR
     description: >
       Silver-layer vendor. One row per vendor, built from adw_core's
-      brz_adventure_works_purchasing__vendor. Drops modified_date, renames
-      columns to business conventions and casts the 0/1 preferred and active
-      flags to BOOLEAN.
+      brz_adventure_works_purchasing__vendor. Renames columns to business
+      conventions, casts the 0/1 preferred and active flags to BOOLEAN,
+      and retains modified_date as vendor_modified_date with its source
+      value and type unchanged.
     columns:
       - name: business_entity_id
         description: "Primary key. Unique identifier of the vendor; foreign key to the business entity (source: business_entity_id)."
@@ -37,3 +38,6 @@ models:
 
       - name: vendor_purchasing_web_service_url
         description: "Vendor's purchasing web service URL (source: purchasing_web_service_url)."
+
+      - name: vendor_modified_date
+        description: "Source modification date retained with its original value and type; no DATE or TIMESTAMP conversion is applied (source: modified_date)."
