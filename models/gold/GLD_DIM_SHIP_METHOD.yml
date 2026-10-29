@@ -5,7 +5,7 @@ models:
     description: >
       Gold-layer ship method dimension. One row per way a vendor can ship an
       order to us (e.g. 'XRQ - TRUCK GROUND'). Built from
-      SLV_PURCHASING_SHIP_METHOD_STANDARDIZED. SCD Type 1 (overwrite); no
+      SLV_DIM_ADVENTURE_WORKS_SHIP_METHOD. SCD Type 1 (overwrite); no
       Unknown / -1 row. Answers "how was it shipped?" for GLD_FCT_PURCHASE_ORDER
       via ship_method_key. Public: other projects reference it with
       ref('ADW_PURCHASING', 'GLD_DIM_SHIP_METHOD'), so renaming or removing a
